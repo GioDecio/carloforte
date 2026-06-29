@@ -72,19 +72,21 @@ Benchmarked against raw CSV export (worst case baseline). Run `examples/scripts/
 ## Architecture
 
 ```
-extract("file.xlsx", fmt="csv")
+carloforte.extract(path, sheets=None, fmt="csv")
 │
-├─ _reader        load_workbook_sheets()
-│                 openpyxl → dict[sheet_name, Grid]
+│  1. _reader.load_workbook_sheets(path, sheets)
+│     openpyxl → dict[sheet_name, Grid]
 │
-├─ _islands       find_islands(grid)
-│                 BFS over non-empty cells → list[Island]
-│                 each Island has a bounding box + header row + data rows
+│  2. _islands.find_islands(grid)   ← per sheet
+│     BFS over non-empty cells → list[Island]
+│     each Island: bounding box + header row + data rows
 │
-└─ _serialiser    serialise(sheet_islands, fmt)
-                  csv      →  one block per island, separated by blank lines
-                  markdown →  one ## heading per sheet, fenced tables per island
-                  json     →  { sheets: { name: { tables: [...] } } }
+│  3. _serialiser.serialise(sheet_islands, fmt)
+│     "csv"      → one block per island, blank-line separated
+│     "markdown" → ## heading per sheet, fenced table per island
+│     "json"     → {"sheets": {"name": {"tables": [...]}}}
+│
+└─ returns str
 ```
 
 ## License
