@@ -45,16 +45,16 @@ Excel sheets often contain multiple disconnected tables, empty rows, and metadat
 
 Benchmarked against raw CSV export (worst case baseline):
 
-| File | Raw CSV | CSV island | Markdown | JSON | Best reduction |
-|------|--------:|-----------:|---------:|-----:|---------------|
-| big_sample.xlsx | 4,484 | 974 | 1,465 | 1,351 | **-78.3%** |
-| chaos.xlsx | 10,529 | 4,676 | 6,550 | 6,086 | **-55.6%** |
-| messy_sample.xlsx | 2,142 | 1,457 | 2,175 | 1,993 | **-32.0%** |
-| multisheet_sample.xlsx | 1,292 | 1,144 | 1,874 | 1,748 | **-11.5%** |
-| sample.xlsx | 248 | 244 | 416 | 380 | **-1.6%** |
-| very_messy_populated.xlsx | 22,681 | 21,254 | 27,974 | 27,445 | **-6.4%** |
+| Description | Raw CSV | CSV island | Markdown | JSON | Best reduction |
+|-------------|--------:|-----------:|---------:|-----:|---------------|
+| Single sheet, sparse data with empty regions | 4,484 | 974 | 1,465 | 1,351 | **-78.3%** |
+| Single sheet, chaotic layout with scattered tables | 10,529 | 4,676 | 6,550 | 6,086 | **-55.6%** |
+| Single sheet, mixed metadata and data rows | 2,142 | 1,457 | 2,175 | 1,993 | **-32.0%** |
+| Multiple sheets, clean tables | 1,292 | 1,144 | 1,874 | 1,748 | **-11.5%** |
+| Single sheet, small clean table | 248 | 244 | 416 | 380 | **-1.6%** |
+| Single sheet, large dense table with noise rows | 22,681 | 21,254 | 27,974 | 27,445 | **-6.4%** |
 
-*Chars used as proxy for token count. CSV island format is the most compact in all tested cases.*
+*Values are character counts (proxy for token count). CSV island format is the most compact in all tested cases.*
 
 ## Architecture
 
