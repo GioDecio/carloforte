@@ -1,6 +1,6 @@
 [project]
 name = "carloforte"
-version = "0.1.0"
+version = "0.1.1"
 description = "Extract structured data from Excel files with minimal token usage"
 readme = "README.md"
 license = { text = "MIT" }
