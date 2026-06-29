@@ -5,7 +5,7 @@ Extract structured data from Excel files with minimal token usage.
 carloforte uses an island-detection algorithm to convert Excel sheets into a compact intermediate representation (CSV, Markdown, or JSON), making it efficient to pass spreadsheet data to LLMs.
 
 ## Installation
-TBC
+``uv add carloforte``
 
 ## Usage
 
