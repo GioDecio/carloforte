@@ -111,6 +111,29 @@ This keeps the library installable without Rust. Users who install the compiled 
 
 ---
 
+## Testing
+
+**File:** `tests/test_islands_rs.py`
+
+Tests run inside the existing pytest suite. The Rust extension is skipped gracefully if not compiled:
+
+```python
+pytest.importorskip("_islands_rs")
+```
+
+**Test strategy:** correctness parity — for each case in `test_islands.py`, run the same grid through `_islands_rs.find_islands` and assert the output matches the Python version exactly (same number of islands, same `top_row`/`left_col`, same `cells`). No new scenarios needed — if it matches Python on all existing cases, it's correct.
+
+Cases covered:
+- Empty grid
+- Single cell
+- Two separate islands
+- Contiguous block
+- Scattered islands (the complex 9×6 grid)
+
+The Rust function returns `list[dict]` so assertions compare dicts against `Island` dataclass fields directly.
+
+---
+
 ## Out of Scope
 
 - Rust implementation of `_reader.py` or `_serialiser.py`
