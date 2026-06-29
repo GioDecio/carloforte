@@ -1,5 +1,7 @@
 # carloforte
 
+[![CI](https://github.com/GioDecio/carloforte/actions/workflows/ci.yml/badge.svg)](https://github.com/GioDecio/carloforte/actions/workflows/ci.yml)
+
 Extract structured data from Excel files with minimal token usage.
 
 carloforte uses an island-detection algorithm to convert Excel sheets into a compact intermediate representation (CSV, Markdown, or JSON), making it efficient to pass spreadsheet data to LLMs.
@@ -43,7 +45,7 @@ Excel sheets often contain multiple disconnected tables, empty rows, and metadat
 
 ## Performance
 
-Benchmarked against raw CSV export (worst case baseline):
+Benchmarked against raw CSV export (worst case baseline) showing the change in _characters_ count:
 
 | Description | Raw CSV | CSV island | Markdown | JSON | Best reduction |
 |-------------|--------:|-----------:|---------:|-----:|---------------|
