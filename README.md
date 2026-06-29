@@ -41,6 +41,20 @@ carloforte data.xlsx --sheets Revenue Costs --fmt json
 
 Excel sheets often contain multiple disconnected tables, empty rows, and metadata scattered around. carloforte detects each contiguous block of data ("island") independently and serialises only what matters — reducing token usage by 60–75% compared to passing raw Excel content to an LLM.
 
+## Architecture
+
+```mermaid
+flowchart LR
+    A["📄 .xlsx file"] --> B["_reader\nload sheets"]
+    B --> C["dict[sheet → grid]"]
+    C --> D["_islands\nBFS detection"]
+    D --> E["dict[sheet → islands]"]
+    E --> F{"fmt?"}
+    F -->|csv| G["CSV"]
+    F -->|markdown| H["Markdown"]
+    F -->|json| I["JSON"]
+```
+
 ## License
 
 MIT
