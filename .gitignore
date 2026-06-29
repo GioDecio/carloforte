@@ -3,6 +3,9 @@ CLAUDE.md
 ai_notes/
 examples/
 
+
+.python-version
+
 # macOS
 .DS_Store
 
