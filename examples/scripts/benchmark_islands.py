@@ -12,7 +12,13 @@ import random
 import statistics
 import time
 
-import _islands_rs
+try:
+    import _islands_rs
+except ModuleNotFoundError:
+    raise SystemExit(
+        "_islands_rs not built. Run: cd carloforte-rs && maturin develop --release"
+    )
+
 from carloforte._islands import find_islands as find_islands_py
 
 
@@ -26,18 +32,21 @@ def generate_grid(rows: int, cols: int, density: float, seed: int = 42) -> list[
 
 
 def run_python(grid: list[list]) -> None:
-    find_islands_py([row[:] for row in grid])
+    find_islands_py(grid)
 
 
 def run_rust(grid: list[list]) -> None:
-    _islands_rs.find_islands([row[:] for row in grid])
+    _islands_rs.find_islands(grid)
 
 
 def benchmark(label: str, fn, grid: list[list], n: int = 10) -> dict:
+    # warmup
+    fn([row[:] for row in grid])
     times = []
     for _ in range(n):
+        grid_copy = [row[:] for row in grid]
         start = time.perf_counter()
-        fn(grid)
+        fn(grid_copy)
         times.append((time.perf_counter() - start) * 1000)
     return {
         "label": label,
