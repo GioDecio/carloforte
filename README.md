@@ -71,16 +71,20 @@ Benchmarked against raw CSV export (worst case baseline). Run `examples/scripts/
 
 ## Architecture
 
-```mermaid
-flowchart LR
-    A["📄 .xlsx file"] --> B["_reader\nload sheets"]
-    B --> C["dict[sheet → grid]"]
-    C --> D["_islands\nBFS detection"]
-    D --> E["dict[sheet → islands]"]
-    E --> F{"fmt?"}
-    F -->|csv| G["CSV"]
-    F -->|markdown| H["Markdown"]
-    F -->|json| I["JSON"]
+```
+extract("file.xlsx", fmt="csv")
+│
+├─ _reader        load_workbook_sheets()
+│                 openpyxl → dict[sheet_name, Grid]
+│
+├─ _islands       find_islands(grid)
+│                 BFS over non-empty cells → list[Island]
+│                 each Island has a bounding box + header row + data rows
+│
+└─ _serialiser    serialise(sheet_islands, fmt)
+                  csv      →  one block per island, separated by blank lines
+                  markdown →  one ## heading per sheet, fenced tables per island
+                  json     →  { sheets: { name: { tables: [...] } } }
 ```
 
 ## License
