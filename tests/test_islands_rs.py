@@ -1,8 +1,8 @@
 import pytest
 
-from carloforte._islands import find_islands as py_find_islands
+_islands_rs = pytest.importorskip("_islands_rs")
 
-_islands_rs = pytest.importorskip("_islands_rs")  # noqa: E402
+from carloforte._islands import find_islands as py_find_islands  # noqa: E402
 
 
 def _py_to_dicts(islands):
