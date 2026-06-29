@@ -37,6 +37,7 @@ dev = [
     "openpyxl-stubs",
     "pytest>=8.0",
     "ruff>=0.15.20",
+    "tiktoken>=0.13.0",
 ]
 
 [tool.pytest.ini_options]

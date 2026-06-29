@@ -45,18 +45,29 @@ Excel sheets often contain multiple disconnected tables, empty rows, and metadat
 
 ## Performance
 
-Benchmarked against raw CSV export (worst case baseline) showing the change in _characters_ count:
+Benchmarked against raw CSV export (worst case baseline). Run `examples/scripts/benchmark_tokens.py` to reproduce.
 
-| Description | Raw CSV | CSV island | Markdown | JSON | Best reduction |
-|-------------|--------:|-----------:|---------:|-----:|---------------|
-| Single sheet, sparse data with empty regions | 4,484 | 974 | 1,465 | 1,351 | **-78.3%** |
-| Single sheet, chaotic layout with scattered tables | 10,529 | 4,676 | 6,550 | 6,086 | **-55.6%** |
-| Single sheet, mixed metadata and data rows | 2,142 | 1,457 | 2,175 | 1,993 | **-32.0%** |
-| Multiple sheets, clean tables | 1,292 | 1,144 | 1,874 | 1,748 | **-11.5%** |
-| Single sheet, small clean table | 248 | 244 | 416 | 380 | **-1.6%** |
-| Single sheet, large dense table with noise rows | 22,681 | 21,254 | 27,974 | 27,445 | **-6.4%** |
+**Characters:**
 
-*Values are character counts (proxy for token count). CSV island format is the most compact in all tested cases.*
+| File | Raw CSV | CSV islands | Markdown | JSON |
+|------|--------:|------------:|---------:|-----:|
+| `large_sparse` — 1 sheet, 5 islands spread over 165 rows | 4,470 | ↓ 960 | ↓ 1,453 | ↓ 1,337 |
+| `fragmented` — 4 sheets, 4% fill, tiny tables far apart | 10,664 | ↓ 4,811 | ↓ 6,690 | ↓ 6,221 |
+| `stray_cells` — 1 sheet, 7 islands + scattered stray cells | 2,143 | ↓ 1,458 | ↑ 2,175 | ↓ 1,994 |
+| `multisheet` — 4 sheets, mixed structure | 1,304 | ↓ 1,156 | ↑ 1,879 | ↑ 1,755 |
+| `minimal` — 1 sheet, 3 small islands | 248 | ↓ 244 | ↑ 417 | ↑ 380 |
+| `enterprise` — 9 sheets, dense real-world complexity | 23,983 | ↓ 22,639 | ↑ 29,357 | ↑ 28,741 |
+
+**Tokens** (cl100k_base):
+
+| File | Raw CSV | CSV islands | Markdown | JSON |
+|------|--------:|------------:|---------:|-----:|
+| `large_sparse` | 1,033 | ↓ 443 | ↓ 616 | ↓ 605 |
+| `fragmented` | 2,556 | ↓ 1,696 | ↓ 2,375 | ↓ 2,283 |
+| `stray_cells` | 630 | ↓ 575 | ↑ 824 | ↑ 811 |
+| `multisheet` | 499 | ↓ 484 | ↑ 737 | ↑ 721 |
+| `minimal` | 83 | ↑ 89 | ↑ 143 | ↑ 139 |
+| `enterprise` | 9,606 | ↑ 9,627 | ↑ 11,723 | ↑ 12,386 |
 
 ## Architecture
 
