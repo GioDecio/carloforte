@@ -10,7 +10,13 @@ import cProfile
 import pstats
 import random
 import statistics
+import sys
 import time
+
+from loguru import logger
+
+logger.remove()
+logger.add(sys.stdout, format="{message}", colorize=False)
 
 try:
     import _islands_rs
@@ -19,7 +25,7 @@ except ModuleNotFoundError:
         "_islands_rs not built. Run: cd carloforte-rs && maturin develop --release"
     )
 
-from carloforte._islands import find_islands as find_islands_py
+from carloforte._islands import find_islands as find_islands_py  # noqa: E402
 
 
 def generate_grid(rows: int, cols: int, density: float, seed: int = 42) -> list[list]:
@@ -66,8 +72,8 @@ DENSITIES = [0.3, 0.7]
 
 def run_benchmarks() -> None:
     header = f"{'Config':<25} {'Impl':<8} {'Mean (ms)':>10} {'Stdev (ms)':>12} {'Speedup':>9}"
-    print(header)
-    print("-" * len(header))
+    logger.info(header)
+    logger.info("-" * len(header))
 
     for size_label, rows, cols in CONFIGS:
         for density in DENSITIES:
@@ -82,13 +88,13 @@ def run_benchmarks() -> None:
                 else float("inf")
             )
 
-            print(
+            logger.info(
                 f"{label:<25} {'python':<8} {py_result['mean_ms']:>10.2f} {py_result['stdev_ms']:>12.2f} {'':>9}"
             )
-            print(
+            logger.info(
                 f"{'':<25} {'rust':<8} {rs_result['mean_ms']:>10.2f} {rs_result['stdev_ms']:>12.2f} {speedup:>8.1f}x"
             )
-        print()
+        logger.info("")
 
 
 def main() -> None:
