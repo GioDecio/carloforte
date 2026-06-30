@@ -32,9 +32,10 @@ build-backend = "uv_build"
 [dependency-groups]
 dev = [
     "commitizen>=4.16.4",
-    "pre-commit>=4.0",
+    "maturin>=1.7",
     "mypy>=1.16",
     "openpyxl-stubs",
+    "pre-commit>=4.0",
     "pytest>=8.0",
     "ruff>=0.15.20",
     "tiktoken>=0.13.0",

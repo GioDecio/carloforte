@@ -64,3 +64,4 @@ dmypy.json
 
 # JetBrains
 # .idea/
+.superpowers/

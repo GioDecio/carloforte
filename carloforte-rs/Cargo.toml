@@ -1,0 +1,13 @@
+[package]
+name = "carloforte-rs"
+version = "0.1.0"
+edition = "2021"
+
+[lib]
+name = "_islands_rs"
+crate-type = ["cdylib"]
+
+[dependencies]
+pyo3 = { version = "0.25", features = ["extension-module"] }
+log = "0.4"
+pyo3-log = "0.12"
