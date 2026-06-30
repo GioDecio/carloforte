@@ -71,6 +71,21 @@ Benchmarked against raw CSV export (worst case baseline). Run `examples/scripts/
 | `minimal` | 83 | ↓ 71 (-15%) | ↑ 89 (+7%) | ↑ 143 (+72%) | ↑ 139 (+67%) |
 | `enterprise` | 9,606 | ↓ 9,311 (-3%) | ↑ 9,627 (+0%) | ↑ 11,723 (+22%) | ↑ 12,386 (+29%) |
 
+## Optional Rust backend
+
+carloforte ships a Rust implementation of the island-detection algorithm via [PyO3](https://pyo3.rs). It is not enabled by default — the pure-Python implementation is used unless you build and install the extension manually.
+
+The Rust backend (`carloforte-rs`) re-implements `find_islands` in Rust and exposes it as a native Python extension (`_islands_rs`). The BFS logic is identical to the Python version; the speedup comes from Rust's memory layout and the absence of Python object overhead on large grids.
+
+**Build from source:**
+
+```bash
+cd carloforte-rs
+maturin develop --release
+```
+
+Once built, the `.so` / `.pyd` extension will be importable as `carloforte._islands_rs`. Integration into the default pipeline is planned for a future release.
+
 ## Architecture
 
 ```
