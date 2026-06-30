@@ -74,6 +74,16 @@ Benchmarked against raw CSV export (worst case baseline). Run `examples/scripts/
 ## Architecture
 
 ```
+carloforte/
+├── __init__.py        public API: re-exports extract()
+├── _extract.py        extract() — orchestrates the pipeline
+├── _cli.py            main() — CLI entry point
+├── _reader.py         load_workbook_sheets() — openpyxl → Grid
+├── _islands.py        find_islands() — BFS island detection
+└── _serialiser.py     serialise() — Grid → csv / markdown / json
+```
+
+```
 carloforte.extract(path, sheets=None, fmt="csv")
 │
 │  1. _reader.load_workbook_sheets(path, sheets)
