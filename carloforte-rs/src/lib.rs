@@ -1,3 +1,4 @@
+use log::debug;
 use pyo3::prelude::*;
 use pyo3::types::{PyDict, PyList};
 use std::collections::VecDeque;
@@ -5,11 +6,13 @@ use std::collections::VecDeque;
 #[pyfunction]
 fn find_islands(py: Python, grid: Vec<Vec<Option<PyObject>>>) -> PyResult<Vec<PyObject>> {
     if grid.is_empty() {
+        debug!("find_islands: empty grid, returning early");
         return Ok(vec![]);
     }
 
     let max_row = grid.len();
     let max_col = grid.iter().map(|r| r.len()).max().unwrap_or(0);
+    debug!("find_islands: grid {}x{}", max_row, max_col);
 
     // Pad rows to equal width
     let padded: Vec<Vec<Option<&PyObject>>> = grid
@@ -84,11 +87,13 @@ fn find_islands(py: Python, grid: Vec<Vec<Option<PyObject>>>) -> PyResult<Vec<Py
         }
     }
 
+    debug!("find_islands: found {} islands", islands.len());
     Ok(islands)
 }
 
 #[pymodule]
 fn _islands_rs(m: &Bound<'_, PyModule>) -> PyResult<()> {
+    pyo3_log::init();
     m.add_function(wrap_pyfunction!(find_islands, m)?)?;
     Ok(())
 }

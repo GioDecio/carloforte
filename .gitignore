@@ -2,8 +2,6 @@
 CLAUDE.md
 ai_notes/
 examples/
-!examples/scripts/
-!examples/scripts/*.py
 
 
 .python-version
